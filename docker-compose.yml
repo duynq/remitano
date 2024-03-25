@@ -1,0 +1,62 @@
+version: "3.9"
+
+x-app: &api-app
+  build:
+    context: ./api
+  depends_on:
+    - db
+    - kvs
+  environment:
+    RAILS_ENV: development
+    TMPDIR: /opt/videosharing/tmp
+    DB_HOST: db
+    DB_USER: ${DB_USER}
+    DB_PASSWORD: ${DB_PASSWORD}
+    KVS_HOST: kvs
+    API_CORS_ALLOW_ORIGIN: ${API_CORS_ALLOW_ORIGIN}
+    DEVISE_TOKEN_AUTH_BASE_URL: http://localhost:3001
+    COMPOSE_PROJECT_NAME: videosharing_api
+  volumes:
+    - .:/opt/videosharing:cached
+    - gem-local:/usr/local/bundle
+    - /opt/videosharing/tmp
+    - ./tmp/letter_opener:/opt/videosharing/tmp/letter_opener
+
+services:
+  db:
+    image: postgres:14.5
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    volumes:
+      - db-local:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+  kvs:
+    image: redis:6.0
+    volumes:
+      - kvs-local:/data
+  web:
+    <<: *api-app
+    ports:
+      - "3000:3000"
+    command: sh -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    stdin_open: true
+    tty: true
+  worker:
+    <<: *api-app
+    depends_on:
+      - web
+    command: bundle exec sidekiq
+
+volumes:
+  gem-local:
+    driver: "local"
+  db-local:
+    driver: "local"
+  kvs-local:
+    driver: "local"
+  minio-data-local:
+    driver: "local"
+  minio-config-local:
+    driver: "local"

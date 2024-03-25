@@ -1,0 +1,97 @@
+require:
+  - rubocop-i18n
+  - rubocop-performance
+  - rubocop-rails
+  - rubocop-rake
+  - rubocop-rspec
+  - rubocop-factory_bot
+
+AllCops:
+  NewCops: enable
+  Exclude:
+    - "bin/*"
+    - "vendor/bundle/**/*"
+    - "db/**/*"
+    - "spec/spec_helper.rb"
+    - "app/views/**/*"
+    - "config/initializers/**/*"
+    - "Rakefile"
+
+Style/Documentation:
+  Enabled: false
+
+Metrics/AbcSize:
+  Enabled: false
+
+I18n/RailsI18n/DecorateStringFormattingUsingInterpolation:
+  Enabled: false
+
+FactoryBot/AssociationStyle:
+  Enabled: false
+
+RSpec/IndexedLet:
+  Enabled: false
+
+RSpec/PendingWithoutReason:
+  Enabled: false
+
+Metrics/BlockLength:
+  Exclude:
+    - 'config/**/*'
+
+Metrics/ClassLength:
+  CountComments: false
+  Max: 220
+
+Layout/LineLength:
+  AllowedPatterns: ['\A#']
+  Max: 110
+
+Metrics/MethodLength:
+  Max: 110
+
+I18n/GetText/DecorateString:
+  Exclude:
+    - 'spec/**/*'
+
+I18n/RailsI18n/DecorateString:
+  Exclude:
+    - 'spec/**/*'
+
+RSpec/ContextWording:
+  Exclude:
+    - 'spec/**/*'
+
+RSpec/NamedSubject:
+  Exclude:
+    - 'spec/**/*'
+
+RSpec/MultipleMemoizedHelpers:
+  Exclude:
+    - 'spec/**/*'
+
+RSpec/LetSetup:
+  Exclude:
+    - 'spec/**/*'
+
+RSpec/MultipleExpectations:
+  Exclude:
+    - 'spec/**/*'
+
+RSpec/NestedGroups:
+  Exclude:
+    - 'spec/**/*'
+
+RSpec/ExampleLength:
+  Exclude:
+    - 'spec/**/*'
+
+Style/HashSyntax:
+  Exclude:
+    - 'spec/**/*'
+
+RSpec/ImplicitSubject:
+  EnforcedStyle: single_statement_only
+
+I18n/GetText/DecorateFunctionMessage:
+  Enabled: false
