@@ -3,6 +3,11 @@
 class User < ApplicationRecord
   has_secure_password
 
+  has_many :movies, dependent: :destroy
+
   validates :name, :email, presence: true
-  validates :email, uniqueness: true
+  with_options if: -> { email.present? } do
+    validates :email, uniqueness: true
+    validates :email, email_format: true
+  end
 end
