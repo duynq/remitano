@@ -7,16 +7,10 @@ module Api
 
     def create
       @user.save!
-      render json: @user, serializer: UserSerializer, include: include_option, status: :created
+      render json: @user, serializer: UserSerializer, status: :created
     end
 
     private
-
-    def include_option
-      {
-        movies: []
-      }
-    end
 
     def init_user
       @user = User.new(user_params)

@@ -3,11 +3,21 @@
 class Movie < ApplicationRecord
   belongs_to :user
 
-  validates :youtube_id, :url, presence: true
+  validates :url, presence: true
   validates :youtube_id, uniqueness: true, if: -> { youtube_id.present? }
 
-  with_options if: -> { url.present? } do
-    validates :url, uniqueness: true
-    validates :url, youtube_link_format: true
+  validates :url, uniqueness: true, if: -> { url.present? }
+
+  before_validation :set_youtube_data, if: -> { url.present? }
+
+  private
+
+  def set_youtube_data
+    movie = VideoInfo.new(url)
+    self.youtube_id = movie.video_id
+    self.title = movie.title
+    self.description = movie.description
+  rescue VideoInfo::UrlError
+    errors.add(:url, 'is not a valid YouTube URL')
   end
 end
