@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe YoutubeLinkFormatValidator do
-  let(:movie) { FactoryBot.build(:movie, youtube_id: youtube_id, url: url)}
+  let(:movie) { build(:movie, youtube_id: youtube_id, url: url) }
 
   context 'when valid youtube link' do
     let(:youtube_id) { '123456' }

@@ -13,12 +13,15 @@ en:
       parameter_missing:
         code: '40'
         message: "Please enter %{param}"
+      invalid_token:
+        code: '50'
+        message: Invalid token
       argument_error:
         code: '90'
         message: There is an error in the sending parameters
       bad_credentials:
         code: '99'
-        message: login failed
+        message: Please login!
       user_not_found:
         code: '92'
         message: User not found or not logged in

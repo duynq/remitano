@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 module Api
   class UsersController < ApplicationController
+    skip_before_action :authenticate_user!
     before_action :init_user, only: :create
 
     def create
-      binding.pry
       @user.save!
       render json: @user, serializer: UserSerializer, include: include_option, status: :created
     end

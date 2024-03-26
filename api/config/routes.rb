@@ -8,6 +8,8 @@ Rails.application.routes.draw do
   get '/ping', to: ->(_env) { [200, { 'Content-Type' => 'text/plain' }, ['OK']] }
 
   namespace :api, format: :json do
+    post '/sign_in', to: 'sessions#create'
     resources :users, only: :create
+    resources :movies, only: %i[index create]
   end
 end

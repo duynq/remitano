@@ -37,15 +37,9 @@ module ApiRenderable
     %i[
       record_invalid
       update_invalid
-      argument_error
-      record_not_found
-      parameter_missing
-      bad_email_credentials
-      bad_credentials
       user_not_found
-      password_not_changed
+      invalid_token
       email_invalid
-      email_not_found
       forbidden_error
     ]
   end
@@ -53,7 +47,7 @@ module ApiRenderable
   ActionController::Renderers.add :error do |obj, options|
     render_error_response obj, error_model: options[:model],
                                http_status_code: options[:status],
-                               message_variables: (options[:message_variables] || {})
+                               message_variables: options[:message_variables] || {}
   end
 
   def force_json_format

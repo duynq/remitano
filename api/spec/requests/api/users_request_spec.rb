@@ -23,7 +23,6 @@ RSpec.describe 'Api::Users' do
       end
 
       it 'creates a user' do
-
         expect(response).to have_http_status(:created)
       end
     end
