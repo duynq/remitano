@@ -13,5 +13,5 @@ en:
         user:
           attributes:
             email:
-              taken: "Email has already been taken"
-              invalid_format: "Email is wrong format"
+              taken: "has already been taken"
+              invalid_format: "is wrong format"
