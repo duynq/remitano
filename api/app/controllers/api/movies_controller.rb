@@ -2,6 +2,7 @@
 
 module Api
   class MoviesController < ApplicationController
+    skip_before_action :authenticate_user!, only: :index
     before_action :init_movie, only: :create
 
     def index
