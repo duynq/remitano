@@ -1,8 +1,13 @@
 import { useRouter } from 'next/router'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { $api } from '@/apis'
+import { userAuth, userInfo } from '@/store'
+import { useSetRecoilState, useRecoilValue } from 'recoil'
+import { AxiosResponse } from 'axios'
+import { jwtDecode } from 'jwt-decode'
 import { userRequestEmptyValue } from '@/constants/user'
-import { AccountUserRequest } from '@/types/user'
+import { USER_AUTH_KEY } from '@/constants'
+import { AccountUserRequest, AccountLoginResponse } from '@/types/user'
 
 interface HeaderProps {
   title: string
@@ -10,9 +15,32 @@ interface HeaderProps {
 
 const Header = ({ title }: HeaderProps) => {
   const router = useRouter()
+  const setUserAuth = useSetRecoilState(userAuth)
+  const setUserInfo = useSetRecoilState(userInfo)
+  const userInfodata = useRecoilValue(userInfo)
+  const [email, setEmail] = useState('')
   const [userRequest, setUserRequest] = useState<AccountUserRequest>(
     userRequestEmptyValue
   )
+
+  useEffect(() => {
+    setEmail(userInfodata?.email)
+  }, [userInfodata])
+
+  const handleRegisterResponse = (
+    response: AxiosResponse<AccountLoginResponse>,
+  ) => {
+    const userAuth = {
+      token: response?.token
+    }
+
+    const userInfo = userAuth?.token ? jwtDecode(userAuth.token) : null
+
+    localStorage.setItem(USER_AUTH_KEY, JSON.stringify(userAuth))
+    setUserAuth(userAuth)
+    setUserInfo(userInfo)
+    router.push('/')
+  }
 
   const handleSetUserRequest = <T extends keyof AccountUserRequest>(
     key: T,
@@ -24,46 +52,67 @@ const Header = ({ title }: HeaderProps) => {
     })
   }
 
-  const register = async (data: AccountUserRequest) => {
-
+  const registerOrLogin = async (data: AccountUserRequest, type: string) => {
     try {
-      const res = await $api.user.registration.register(data)
-      if (res.success) {
-        router.push('/')
-      }
+      if (['login', 'register'].indexOf(type) === -1) return console.log('Invalid type')
+
+      const res = type === 'login' ? await $api.user.userLogin.login(data) : await $api.user.registration.register(data)
+      handleRegisterResponse(res)
     } catch (error) {
       console.log('error', error)
     }
   }
 
-  const handleSignUp = () => {
-    userRequest && register(userRequest)
+  const handleLoginOrSignUp = (event: any, type: string) => {
+    event.preventDefault()
+
+    userRequest.email && registerOrLogin(userRequest, type)
   }
 
-  console.log(userRequest)
+  const handleLogout = () => {
+    localStorage.removeItem(USER_AUTH_KEY)
+    setUserAuth(null)
+    setUserInfo(null)
+    router.push('/')
+  }
+
+  const renderLoginOrSignUp = () => {
+    return (
+      <>
+        <input
+          type="email"
+          placeholder="Email"
+          value={userRequest?.email}
+          className='form-control'
+          onChange={(e) => handleSetUserRequest('email', e.target.value)}
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          value={userRequest?.password}
+          onChange={(e) => handleSetUserRequest('password', e.target.value)}
+        />
+        <button onClick={(e) => handleLoginOrSignUp(e, 'login') } >Login</button>
+        <button className='ml-5' onClick={ (e) => handleLoginOrSignUp(e, 'register') }>Register</button>
+      </>
+    )
+  }
+
+  const renderLogout = () => {
+    return (
+      <>
+        <h3 className='mr-5'>Welcome {email}</h3>
+        <button onClick={handleLogout}>Logout</button>
+      </>
+    )
+  }
 
   return (
     <div className="flex justify-between">
       <h1>{title}</h1>
       
       <div className="flex justify-between">
-        <div>
-          <input
-            type="email"
-            placeholder="Email"
-            value={userRequest?.email}
-            className='form-control'
-            onChange={(e) => handleSetUserRequest('email', e.target.value)}
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            value={userRequest?.password}
-            onChange={(e) => handleSetUserRequest('password', e.target.value)}
-          />
-          <button onClick={() => {} } >Login</button>
-          <button className='ml-3' onClick={ handleSignUp }>Register</button>
-        </div>
+        { email ? renderLogout() : renderLoginOrSignUp() }
       </div>
     </div>
   );

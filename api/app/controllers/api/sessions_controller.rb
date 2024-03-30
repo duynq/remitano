@@ -9,26 +9,13 @@ module Api
 
       if user&.authenticate(user_params[:password])
         token = issue_token(user)
-        render json: { token:, user: user_data(user) }, status: :ok
+        render json: { token: }, status: :ok
       else
         render json: { error: 'Invalid email or password' }, status: :unauthorized
       end
     end
 
     private
-
-    def user_data(user)
-      UserSerializer.new(
-        user,
-        include: include_option
-      )
-    end
-
-    def include_option
-      {
-        movies: []
-      }
-    end
 
     def user_params
       params.permit(:email, :password)

@@ -26,7 +26,7 @@ function setDefaultProperties(axiosInstace: AxiosInstance) {
         const auth: any = getAuthentication()
 
         if (auth && config.headers) {
-          config.headers['Authorization'] = auth['token']
+          config.headers['Authorization'] = `Bearer ${auth['token']}`
         }
       } catch (error) {}
 

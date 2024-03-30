@@ -1,12 +1,9 @@
 import Header from '@/components/layouts/header'
-import { userInfo } from '@/store'
-import { useRecoilValue } from 'recoil'
 
 const Home = () => {
-  const user = useRecoilValue(userInfo)
   return <>
     <div className='container mx-auto mt-6'>
-      <Header title="Home" />
+      <Header title="Funny Movies" />
     </div>
   </>
 }

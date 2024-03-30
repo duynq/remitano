@@ -6,8 +6,7 @@ export interface User {
 }
 
 export type AccountLoginResponse = {
-  data: User
-  message: string
+  token: string
   success: boolean
 }
 

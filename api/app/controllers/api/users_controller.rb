@@ -8,17 +8,13 @@ module Api
     def create
       @user.save!
       token = issue_token(@user)
-      render json: { token:, user: user_data(@user) }, status: :created
+      render json: { token: }, status: :created
     end
 
     private
 
     def init_user
       @user = User.new(user_params)
-    end
-
-    def user_data(user)
-      UserSerializer.new(user)
     end
 
     def user_params

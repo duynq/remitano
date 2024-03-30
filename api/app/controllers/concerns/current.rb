@@ -16,7 +16,7 @@ module Current
   end
 
   def issue_token(user)
-    JWT.encode({ user_id: user.id }, secret_key_base, 'HS256')
+    JWT.encode({ user_id: user.id, email: user.email }, secret_key_base, 'HS256')
   end
 
   def decoded_token
