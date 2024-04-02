@@ -102,14 +102,15 @@ const Header = ({ title }: HeaderProps) => {
     return (
       <>
         <h3 className='mr-5'>Welcome {email}</h3>
+        <button className='mr-5' onClick={() => router.push('/share')}>Share a movie</button>
         <button onClick={handleLogout}>Logout</button>
       </>
     )
   }
 
   return (
-    <div className="flex justify-between">
-      <h1>{title}</h1>
+    <div className="flex justify-between mb-32">
+      <h1 className='cursor-pointer' onClick={() => router.push('/')} >{title}</h1>
       
       <div className="flex justify-between">
         { email ? renderLogout() : renderLoginOrSignUp() }

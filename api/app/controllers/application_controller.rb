@@ -3,6 +3,7 @@
 class ApplicationController < ActionController::API
   include Current
   include ApiRenderable
+  include ApiPaginate
 
   before_action :authenticate_user!
 

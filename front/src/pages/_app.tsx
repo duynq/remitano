@@ -3,7 +3,7 @@ import '@/assets/styles/global.css'
 import Head from 'next/head'
 import type { NextPage } from 'next'
 import type { AppProps } from 'next/app'
-import UserLayout from '@/components/layouts/user_layout'
+import DefaultLayout from '@/components/layouts/default_layout'
 import { RecoilRoot } from 'recoil'
 
 // ** Extend App Props with Emotion
@@ -17,7 +17,7 @@ const App = (props: ExtendedAppProps) => {
 
   // Variables
   const getLayout =
-    Component.getLayout ?? ((page) => <UserLayout>{page}</UserLayout>)
+    Component.getLayout ?? ((page) => <DefaultLayout>{page}</DefaultLayout>)
 
   return (
     <RecoilRoot>

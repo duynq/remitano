@@ -8,4 +8,5 @@ class MovieSerializer < ActiveModel::Serializer
              :description,
              :thumbnail_url,
              :url
+  belongs_to :user
 end

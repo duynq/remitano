@@ -6,8 +6,8 @@ class MovieApis extends BaseApi {
     super(axios)
   }
 
-  async getMovies() {
-    const res = await this.axios.get('/movies')
+   async getMovies (params: {}) {
+    const res = await this.axios.get('/movies', { params })
 
     return res.data
   }
