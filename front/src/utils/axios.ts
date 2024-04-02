@@ -1,6 +1,6 @@
 import {
   USER_AUTH_KEY,
-  UNAUTHORIZED_STATUS_CODE,
+  NOT_FOUND_STATUS_CODE,
   INTERNAL_SERVER_ERROR_CODE
 } from '@/constants/index'
 
@@ -39,12 +39,10 @@ function setDefaultProperties(axiosInstace: AxiosInstance) {
   axiosInstace.interceptors.response.use(
     (response: any) => response,
     (error: AxiosError) => {
-      console.log('error.response', error)
-
       const status = (error.response && error.response!.status) || 0
-      if (status === UNAUTHORIZED_STATUS_CODE) {
-        localStorage.removeItem(USER_AUTH_KEY)
-        location.href = '/'
+
+      if (status === NOT_FOUND_STATUS_CODE) {
+        location.href = '/404'
       } else if (status >= INTERNAL_SERVER_ERROR_CODE) {
         location.href = '/500'
       }

@@ -1,15 +1,22 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import Header from '@/components/layouts/header'
 import useMovie from '@/hooks/movie/userMovie'
 import BasePagination from '@/components/ui_parts/pagination/base_pagination'
+import { messageContent } from '@/store'
+import { useRecoilValue } from 'recoil'
 
 export interface MovieParams {
   page?: number | string
 }
 
+const alert = (message: string) => {
+  return <p className='text-center' >{message}</p>
+}
+
 const Home = () => {
   const [params, setParams] = useState<MovieParams>({})
   const { movies, meta } = useMovie({ params })
+  const message = useRecoilValue(messageContent)
 
   const handlePageChange = (page: number) => {
     setParams({
@@ -19,6 +26,7 @@ const Home = () => {
   }
 
   return <>
+    {message && alert(message)}
     <Header title='Funny Movies' />
     <div className='mt-10 flex flex-col items-center justify-items-center pb-32'>
     {

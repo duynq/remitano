@@ -1,10 +1,13 @@
 import { useRouter } from 'next/router'
 import React, { useState } from 'react'
 import { $api } from '@/apis'
+import { messageContent } from '@/store'
+import { useSetRecoilState } from 'recoil'
 
 const Form = () => {
   const router = useRouter()
   const [youtubeUrl, setYoutubeUrl] = useState('')
+  const setMessage = useSetRecoilState(messageContent)
 
   const createMovie = async () => {
     const data = {
@@ -14,8 +17,9 @@ const Form = () => {
     try {
       const res = await $api.movie.createMovie(data)
       router.push('/')
-    } catch (e) {
-      console.error(e)
+      setMessage('')
+    } catch (error) {
+      setMessage(error?.response?.data?.detail?.url[0])
     }
   }
 

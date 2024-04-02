@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import { $api } from '@/apis'
-import { userAuth, userInfo } from '@/store'
+import { userAuth, userInfo, messageContent } from '@/store'
 import { useSetRecoilState, useRecoilValue } from 'recoil'
 import { AxiosResponse } from 'axios'
 import { jwtDecode } from 'jwt-decode'
@@ -17,6 +17,7 @@ const Header = ({ title }: HeaderProps) => {
   const router = useRouter()
   const setUserAuth = useSetRecoilState(userAuth)
   const setUserInfo = useSetRecoilState(userInfo)
+  const setMessage = useSetRecoilState(messageContent)
   const userInfodata = useRecoilValue(userInfo)
   const [email, setEmail] = useState('')
   const [userRequest, setUserRequest] = useState<AccountUserRequest>(
@@ -58,8 +59,13 @@ const Header = ({ title }: HeaderProps) => {
 
       const res = type === 'login' ? await $api.user.userLogin.login(data) : await $api.user.registration.register(data)
       handleRegisterResponse(res)
+      setMessage('')
     } catch (error) {
-      console.log('error', error)
+      if (type === 'login') {
+        setMessage(error?.response?.data?.error)
+      } else {
+        setMessage(error?.response?.data?.detail?.email[0])
+      }
     }
   }
 
