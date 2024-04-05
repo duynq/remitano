@@ -6,11 +6,12 @@ module Api
     before_action :init_movie, only: :create
 
     def index
-      render json: { meta: pagination, movies: ActiveModel::SerializableResource.new(resources, each_serializer: MovieSerializer, include: include_option) }
+      render json: { meta: pagination, movies: ActiveModelSerializers::SerializableResource.new(resources, each_serializer: MovieSerializer, include: include_option) }
     end
 
     def create
       @movie.save!
+      NotifyNewMovieJob.perform_later(current_user, @movie)
       render json: @movie, serializer: MovieSerializer, status: :created
     end
 

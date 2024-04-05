@@ -78,4 +78,6 @@ Rails.application.configure do
   Rails.application.configure do
     config.hosts.clear
   end
+  config.action_cable.url = 'ws://localhost:3000/cable/:token'
+  config.action_cable.disable_request_forgery_protection = true
 end

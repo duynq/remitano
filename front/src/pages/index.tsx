@@ -1,9 +1,10 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Header from '@/components/layouts/header'
 import useMovie from '@/hooks/movie/userMovie'
 import BasePagination from '@/components/ui_parts/pagination/base_pagination'
-import { messageContent } from '@/store'
-import { useRecoilValue } from 'recoil'
+import { messageContent, userAuth } from '@/store'
+import { useRecoilValue, useSetRecoilState } from 'recoil'
+import socket from '@/channels/socket'
 
 export interface MovieParams {
   page?: number | string
@@ -17,6 +18,23 @@ const Home = () => {
   const [params, setParams] = useState<MovieParams>({})
   const { movies, meta } = useMovie({ params })
   const message = useRecoilValue(messageContent)
+  const setMessage = useSetRecoilState(messageContent)
+  const authToken = useRecoilValue(userAuth)
+
+  useEffect(() => {
+    if (authToken?.token) {
+      socket(authToken?.token).subscriptions.create({
+        channel: 'MoviesChannel'
+      },{
+        connected: () => console.log('connected'),
+        disconnected: () => console.log('disconnected'),
+        received: (data) => {
+          const message = `User ${data.email} shared a movie ${data.movie_title}`
+          setMessage(message)
+        },
+      })
+    }
+  }, [authToken?.token]);
 
   const handlePageChange = (page: number) => {
     setParams({
