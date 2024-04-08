@@ -6,7 +6,9 @@ module Api
     before_action :init_movie, only: :create
 
     def index
-      render json: { meta: pagination, movies: ActiveModelSerializers::SerializableResource.new(resources, each_serializer: MovieSerializer, include: include_option) }
+      render json: { meta: pagination,
+                     movies: ActiveModelSerializers::SerializableResource.new(resources, each_serializer: MovieSerializer,
+                                                                                         include: include_option) }
     end
 
     def create
@@ -18,7 +20,7 @@ module Api
     private
 
     def resources_scope
-      Movie.all.order(id: :desc)
+      Movie.order(id: :desc)
     end
 
     def include_option

@@ -10,6 +10,6 @@ class ApplicationController < ActionController::API
   private
 
   def authenticate_user!
-    render error: :bad_credentials unless user_signed_in?
+    render error: :bad_credentials, status: :unauthorized unless user_signed_in?
   end
 end

@@ -32,7 +32,7 @@ module Current
   end
 
   def user_id
-    decoded_token.first['user_id']
+    decoded_token.first['user_id'] if decoded_token.first
   end
 
   def current_user

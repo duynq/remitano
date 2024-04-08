@@ -23,10 +23,10 @@ gem 'active_model_serializers', '~> 0.10.12'
 gem 'bcrypt'
 gem 'bootsnap', require: false
 gem 'jwt', '~> 2.2'
-gem 'tzinfo-data', platforms: %i[windows jruby]
-gem 'video_info'
 gem 'kaminari'
 gem 'ransack'
+gem 'tzinfo-data', platforms: %i[windows jruby]
+gem 'video_info'
 # gem 'image_processing', '~> 1.2'
 
 group :development, :test do

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class MoviesChannel < ApplicationCable::Channel
   def subscribed
     stream_from "movie_user_#{current_user.id}"
