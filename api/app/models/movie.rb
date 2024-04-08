@@ -6,9 +6,7 @@ class Movie < ApplicationRecord
   validates :url, presence: true
   validates :youtube_id, uniqueness: true, if: -> { youtube_id.present? }
 
-  validates :url, uniqueness: true, if: -> { url.present? }
-
-  before_validation :set_youtube_data, if: -> { url.present? }
+  before_validation :set_youtube_data, if: -> { url.present? && url_changed? }
 
   private
 
