@@ -11,7 +11,7 @@ module ApplicationCable
     private
 
     def find_verified_user
-      if (verified_user = User.find(user_id))
+      if (verified_user = User.find_by(id: user_id))
         verified_user
       else
         reject_unauthorized_connection
@@ -26,9 +26,12 @@ module ApplicationCable
       JWT.decode(request.params['token'], secret_key_base, true, { algorithm: 'HS256' })
     rescue StandardError
       Rails.logger.error('Invalid Token')
+      nil
     end
 
     def user_id
+      return unless decoded_token
+
       decoded_token.first['user_id']
     end
   end
