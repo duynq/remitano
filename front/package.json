@@ -14,7 +14,8 @@
     "lintfix": "next lint --fix",
     "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\"",
     "stylelintfix": "prettier --write ./**/*.{css,scss}",
-    "test": "jest"
+    "test": "jest",
+    "test --watch": "jest --watch"
   },
   "dependencies": {
     "@rails/actioncable": "^7.1.3-2",

@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom/jest-globals';
 import '@testing-library/jest-dom';
-import { render, act, screen } from '@testing-library/react'
+import { render, act } from '@testing-library/react'
 import { RecoilRoot } from 'recoil'
 import Header from '@/components/layouts/header'
 import { userInfo } from '@/store'
