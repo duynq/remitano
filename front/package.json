@@ -10,8 +10,6 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "lintfix": "next lint --fix",
     "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\"",
     "stylelintfix": "prettier --write ./**/*.{css,scss}",
     "test": "jest",
