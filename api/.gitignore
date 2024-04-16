@@ -43,3 +43,5 @@
 
 /.idea
 
+
+/config/credentials/production.key

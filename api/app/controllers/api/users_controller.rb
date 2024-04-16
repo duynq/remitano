@@ -8,7 +8,7 @@ module Api
     def create
       @user.save!
       token = issue_token(@user)
-      render json: { token: }, status: :created
+      render json: { data: { token: } }, status: :created
     end
 
     private

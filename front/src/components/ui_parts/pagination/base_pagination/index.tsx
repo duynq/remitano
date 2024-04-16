@@ -6,7 +6,7 @@ import {
 } from '@/utils/pagination'
 import styles from './styles.module.scss'
 import clsx from 'clsx'
-import { v4 as uuidv4 } from 'uuid'
+import { v4 as uuidv4 } from 'uuid';
 import { FIRST_PAGE } from '@/constants'
 
 interface BasePaginationProps {
