@@ -1,46 +1,38 @@
-## This is a project about sharing videos online, with the following main features:
-
-- User registration
-- Login
-- Sharing videos on YouTube
-
-## Prerequisites:
-- ruby 3.1.2
-- rails 7.1.3
-- sidekiq
-- redis
-- node v20.9.0
-- yarn v1.22.19
-- next version 13.4.10
-- Docker version 24.0.6, build ed223bc
-
-## Local setup
-
-### Rails setup
-
-- step1: run `docker-compose up`
-- step2: run `docker-compose exec web bash` then `bundle exec rails db:create`, `bundle exec rails db:migrate`
-### Front-end setup
-
-- run `yarn dev`
-
-### Run test case:
-
-- rails: run `docker-compose run web bash` then `bundle exec rspec`
-- front: run `yarn test` or `yarn test --watch`
-
-### Usage:
-
-- User Registration:
-Start by visiting the registration page.
-Provide your desired email address, and password to create an account.
-
-- User Login:
-Enter your registered email address and password to access the application.
-
-- Share video:
-Click on the `Share a movie` button then fill video's youtube URL into `Youtube URL:` input(sample: `https://www.youtube.com/watch?v=hnlz0YYCpBU`) finally, click the `Share` button
-
-### Troubleshooting:
-- The timeout error may occur due to taking too long to retrieve information from YouTube videos.
-
+User          Register Page     Verification Service     Decision      Login Page     Authentication Service     Reset Password Page
+ |                  |                     |                     |                |                  |                           |
+ | --Access Form Register--> |             |                     |                |                  |                           |
+ | <---Display form---------- |             |                     |                |                  |                           |
+ | --Submit form------------->|             |                     |                |                  |                           |
+ |                            | --Send code->|                     |                |                  |                           |
+ |                            | <---Display code form-------------|                |                  |                           |
+ | --Submit code------------->|             | --Check code validity-->|           |                  |                           |
+ |                            | <---------------------Valid/Invalid-|               |                  |                           |
+ | <---Display message--------|             |                     |                |                  |                           |
+ |                            |             | <--------Option to resend code----| |                  |                           |
+ |                            |             |                     |                |                  |                           |
+ |                            | --Confirm verification->|         |                |                  |                           |
+ |                            | ---->Redirect to login screen---| |                |                  |                           |
+ |                            |                     |             |                |                  |                           |
+ | --Access login screen----->|                     |             |                |                  |                           |
+ | <---Display login options--|                     |             |                |                  |                           |
+ |                            | --Select login option--------------|                |                  |                           |
+ | --Submit email/phone------>|                     |             |                |                  |                           |
+ |                            | --Check validity----->|           |                |                  |                           |
+ |                            | <---------Valid/Invalid-|         |                |                  |                           |
+ | <---Display message--------|                     |             |                |                  |                           |
+ |                            | --Submit password----->|           |                |                  |                           |
+ |                            | --Validate password----->|         |                |                  |                           |
+ |                            | <---------Valid/Invalid-|         |                |                  |                           |
+ | <---Display message--------|                     |             |                |                  |                           |
+ | --Select forgot password-->|                     |             |                |                  |                           |
+ | <---Display email form-----|                     |             |                |                  |                           |
+ | --Submit email------------>|                     | --Send code->|                |                  |                           |
+ |                            |                     | <---Display code form--------|                  |                           |
+ | --Submit code------------->|                     | --Check code validity-------->|                  |                           |
+ |                            |                     | <---------Valid/Invalid------|                  |                           |
+ | <---Display message--------|                     |             |                |                  |                           |
+ |                            |                     | <--------Option to resend code--------------|                           |
+ |                            | --Redirect to new password form-------------------|                  |                           |
+ | --Submit new password----->|                     |             |                | --Update password--->|                     |
+ | <---Password reset success--|                     |             |                |                  |                           |
+ | --Redirect to login screen->|                     |             |                |                  |                           |
